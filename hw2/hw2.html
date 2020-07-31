@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h2>1. Дан код:</h2>
+    var a = 1, b = 1, c, d;
+    c = ++a; alert(c);           // 2     <p style="color: blue">присвоили переменной "с" значение "а" при этом проинкрементив ее ПРЕДВАРИТЕЛЬНО</p> 
+    d = b++; alert(d);           // 1     <p style="color: blue">присвоили переменной "d" значение "b" при этом проинкрементив ее ПОCЛЕ операции присвоения</p>
+    c = (2+ ++a); alert(c);      // 5     <p style="color: blue"> a до написания примера имело значение 2. в самом примере мы проинкрементили a до 3 и прибавили к 2</p>
+    d = (2+ b++); alert(d);      // 4     <p style="color: blue"> d до написания примера имело значение 2. в самом примере мы прибавили значение d к 2, после чего проинкрементили d до 3</p>
+    alert(a);                    // 3     <p style="color: blue">описано выше, по сути мы проинкрементили "a" дважды, то, что это произошло ДО совершения операций в примерах выше значения не имеет</p> 
+    alert(b);                    // 3     <p style="color: blue">описано выше, по сути мы проинкрементили "b" дважды, то, что это произошло ПОСЛЕ совершения операций в примерах выше значения не имеет</p>                     
+    
+    <hr>
+    <h2>2. Чему будет равен x в примере ниже?</h2>
+    var a = 2;
+    var x = 1 + (a *= 2); <br> 
+    <p style="color: blue">x = 5</p>
+    
+    <hr>
+    
+    <h2>3. Объявить две целочисленные переменные a и b и задать им произвольные начальные значения. Затем написать скрипт, который работает по следующему принципу:</h2>
+    <p>если a и b положительные, вывести их разность;
+если а и b отрицательные, вывести их произведение;
+если а и b разных знаков, вывести их сумму; ноль можно считать положительным числом. ### 4. Присвоить переменной а значение в промежутке [0..15]. С помощью оператора switch организовать вывод чисел от a до 15. ### 5. Реализовать основные 4 арифметические операции в виде функций с двумя параметрами. Обязательно использовать оператор return. ### 6. Реализовать функцию с тремя параметрами: function mathOperation(arg1, arg2, operation), где arg1, arg2 – значения аргументов, operation – строка с названием операции. В зависимости от переданного значения операции выполнить одну из арифметических операций (использовать функции из пункта 3) и вернуть полученное значение (использовать switch). ### 7) *Сравнить null и 0. Попробуйте объяснить результат. ### 8) *С помощью рекурсии организовать функцию возведения числа в степень. Формат: function power(val, pow), где val – заданное число, pow – степень.</p>
+    <script>
+        var a, b, count;
+        
+        function inputPositive() {
+            x = -1;
+            while (!(Number.isInteger(x) && x >= 0)) {                                  // для упрощения я сразу позволю считать 0 положительным, в том числе и для первого задания
+                x = Number(prompt("введите целочисленное положительное число " + count)); 
+            }
+            return x;
+        }
+        
+        function inputNegative() {
+            x = 0;
+            while (!(Number.isInteger(x) && x < 0)) {
+                x = Number(prompt("введите целочисленное отрицательное число " + count)); 
+            }
+            return x;
+        }
+        
+        function inputDifferent() {
+            x = 0;
+            while (!(Number.isInteger(x) && x < 0)) {
+                x = Number(prompt("введите целочисленное отрицательное число " + count)); 
+            }
+            return x;
+        }
+        
+        function getRandomInt(max) {
+          return Math.floor(Math.random() * Math.floor(max));
+        }
+        
+        
+        
+        count = 1;
+        alert("посчитаем разность");
+        a = inputPositive(count);
+        ++count;
+        b = inputPositive(count);
+        alert("и разность этих чисел... барабанная дробь...");
+        alert(a-b);
+        
+        count = 1;
+        alert("посчитаем произведение");
+        a = inputNegative(count);
+        ++count;
+        b = inputNegative(count);
+        alert("и произведение этих чисел... барабанная дробь...");
+        alert(a*b);
+        
+        count = 1;
+        alert("посчитаем сумму");
+        a = inputPositive(count);
+        ++count;
+        b = inputNegative(count);
+        alert("и сумму этих чисел... барабанная дробь...");
+        alert(a+b);
+        
+        a = Math.floor(Math.random() * Math.floor(15));
+        alert('switch');
+        switch (a) {        // так хотелось бы его while'ом..
+            case 0:
+                alert(0);
+                ++a;
+                break;
+            case 1:
+                alert(1);
+                ++a;
+                break;
+            case 2:
+                alert(2);
+                ++a;
+                break;
+            case 3:
+                alert(3);
+                ++a;
+                break;
+            case 4:
+                alert(4);
+                ++a;
+                break;
+            case 5:
+                alert(5);
+                ++a;
+                break;
+            case 6:
+                alert(6);
+                ++a;
+                break;
+            case 7:
+                alert(7);
+                ++a;
+                break;
+            case 8:
+                alert(8);
+                ++a;
+                break;
+            case 9:
+                alert(9);
+                ++a;
+                break;
+            case 10:
+                alert(10);
+                ++a;
+                break;
+            case 11:
+                alert(11);
+                ++a;
+                break;
+            case 12:
+                alert(12);
+                ++a;
+                break;
+            case 13:
+                alert(13);
+                ++a;
+                break;
+            case 14:
+                alert(14);
+                ++a;
+                break;
+            default:
+                alert(15);
+        }
+        
+        
+    </script>
+</body>
+</html>

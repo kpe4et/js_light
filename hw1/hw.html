@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        h2 {
+            font-size: 40px;
+        }
+        p {
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <h2>как я понял прочитанное по defer/async</h2>
+    <p>defer используется для ускорения загрузки страницы, если скрипт не содержит чего-то сверхнеобходимого, при этом соблюдается объявленная очередность</p>
+    <p>async используется для игнорирования скриптов при загрузке страницы. Могут загрузиться хоть через полгода, это не помешает использовать страницу. При этом запуск скриптов происходит по очередности их загрузки</p>
+    <script>
+        var tc = 15;
+        alert((9/5)*tc+32);
+    </script>
+    <script>
+        var admin;
+        var name = 'Василий';
+        admin = name;
+        alert(admin);
+    </script>
+    <script>
+        alert(1000+'108');
+    </script>
+</body>
+</html>
