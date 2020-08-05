@@ -8,17 +8,17 @@ function numberToArray(number, digits) {
     return numberArr;
 }
 
-//проверим, есть ли в массиве одинаковые цифры, может, перезагадать надо. БЕСКОНЕЧНЫЙ ЦИКЛ, хз пока как решить
+//проверим, есть ли в массиве одинаковые цифры, может, перезагадать надо.
 function numberCheck(number, digits) {
     var numberArr = numberToArray(number, digits);
     for (var i = 0; i < digits; i++ ) {
-        for (var j = i + 1; i < digits; j++ ) {
+        for (var j = i + 1; j < digits; j++ ) {
             if (numberArr[i] == numberArr[j]) {
-                return 'x'; // останемся в цикле
+                return true; // останемся в цикле
             }
         }
     }
-    return 'y'; // выйдем из цикла
+    return false; // выйдем из цикла
 }
 
 
@@ -76,23 +76,23 @@ function cowsCounter(hidden, guess, digits) {
 var NUMBER = 4;
 
 // сыграем
-//var hidden = hiddenNum(NUMBER);
-//console.log(hidden);
-//var guess = Number;
-//var wannaplay = 'y';
-//var count = 0;
+var hidden = hiddenNum(NUMBER);
+console.log(hidden);
+var guess = Number;
+var wannaplay = 'y';
+var count = 0;
 
 
-//while (wannaplay == 'y') {
-//    count++;
-//    guess = guessNum(NUMBER);
-//    console.log(hidden);
-//    alert("Ваш результат " +bullsCounter(hidden, guess, NUMBER)+ " бык (-а/-ов) и " +cowsCounter(hidden, guess, NUMBER)+ " коров(-а/ы)."); //я мог бы натыкать еще пару ифов для плюральных форм, но нет =/
-//    if (guess == hidden) {
-//        var wannaplay = prompt("Вы угадали за " +count+ " попыток. Сыграем еще? y/n: ");
-//        if (wannaplay == 'y') {
-//            hidden = hiddenNum(NUMBER);
-//            count = 0;
-//        }
-//    }
-//}
+while (wannaplay == 'y') {
+    count++;
+    guess = guessNum(NUMBER);
+    console.log(hidden);
+    alert("Ваш результат " +bullsCounter(hidden, guess, NUMBER)+ " бык (-а/-ов) и " +cowsCounter(hidden, guess, NUMBER)+ " коров(-а/ы)."); //я мог бы натыкать еще пару ифов для плюральных форм, но нет =/
+    if (guess == hidden) {
+        var wannaplay = prompt("Вы угадали за " +count+ " попыток. Сыграем еще? y/n: ");
+        if (wannaplay == 'y') {
+            hidden = hiddenNum(NUMBER);
+            count = 0;
+        }
+    }
+}
