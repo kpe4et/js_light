@@ -25,22 +25,24 @@ function guessCheck(hidden, guess, count) {
     }
 }
 
-// сыграем
 
-var hidden = hiddenNum(0, 9999);
+var MIN = 0, MAX = 9999;
+
+// сыграем
+var hidden = hiddenNum(MIN, MAX);
 var guess = Number;
 var wannaplay = 'y';
 var count = 0;
 
 while (wannaplay == 'y') {
     count++;
-    guess = guessNum(0, 9999);
+    guess = guessNum(MIN, MAX);
     console.log(hidden);
     guessCheck(hidden, guess, count);
     if (guess == hidden) {
         var wannaplay = prompt("сыграем еще? y/n: ");
         if (wannaplay == 'y') {
-            hidden = hiddenNum(0, 9999);
+            hidden = hiddenNum(MIN, MAX);
             count = 0;
         }
     }
