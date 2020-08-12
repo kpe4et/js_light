@@ -1,0 +1,43 @@
+body {
+    font-size: 32px;
+}
+
+.container {
+    padding: 20px;
+    width: 9em;
+    align-content: center;
+    background-color: lightgoldenrodyellow;
+    
+}
+
+
+#gameboard {
+    width: 8em;
+    height: 8em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: auto;
+}
+
+.cell {
+    width: 1em;
+    height: 1em;
+    text-align: center;
+}
+
+.whitebg {
+    background-color: white;
+}
+
+.darkbg {
+    background-color: lightgray;
+}
+
+.blackPiece {
+    color: black;
+}
+
+.whitePiece {
+    color: wheat;
+}
