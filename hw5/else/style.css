@@ -13,7 +13,7 @@ body {
 
 #gameboard {
     width: 8em;
-    height: 8em;
+    height: 9em;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;

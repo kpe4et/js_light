@@ -31,25 +31,33 @@ function addPieces(boardLength, letters, board, pieces) {
     return board;
 }
 
-//выведем доску и фигуры
 function renderBoard(boardLength, letters, board) {
     var gameBoard = {};                           // не уверен, что это правильное решение, но показалось проще, чем переделывать доску
     gameBoard.element = document.getElementById('gameboard');
     gameBoard.cells = [];
-    
-    for (var i = 0; i < boardLength; i++) {    
-        for (var j = boardLength; j > 0; j--) {
+    for (var i = 0; i <= boardLength; i++) {
+        for (var j = boardLength; j >= 0; j--) {
             var cell = document.createElement('div');
-            var a = letters[i] + j;
-            cell.classList.add('cell');
-            cell.classList.add(board[a][0]);
-            gameBoard.cells[a] = { type:board[a][0], element: cell };
-            
-            if (board[a].length > 1) {            // не придумал лучше способа узнать, существует ли фигура в ячейке
-                cell.classList.add('fa');
-                cell.classList.add('fa-chess-'+board[a][1][0], board[a][1][1]);
+            if (j == 0 && i == boardLength) {
+                cell.classList.add('cell');
+            } else if (j == 0) {
+                cell.classList.add('cell');
+                cell.append(letters[i]);
+            } else if (i == boardLength) {
+                cell.classList.add('cell');
+                cell.append(j);
+            } else {
+                var a = letters[i] + j;
+                cell.classList.add('cell');
+                cell.classList.add(board[a][0]);
+                gameBoard.cells[a] = { type:board[a][0], element: cell };
+
+                if (board[a].length > 1) {            // не придумал лучше способа узнать, существует ли фигура в ячейке
+                    cell.classList.add('fa');
+                    cell.classList.add('fa-chess-'+board[a][1][0], board[a][1][1]);
+
+                }
             }
-            
             gameBoard.element.appendChild(cell);
         }
     }
