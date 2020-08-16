@@ -1,0 +1,194 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#catalog {
+    width: 60%;
+    padding: 20px;
+}
+
+.catalogLine, .cartLine {
+    display: flex;
+    justify-content: space-around;
+    height: 40px;
+    margin: 50px 0;
+    text-align: center;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.lineElement {
+    width: 15%;
+}
+
+#cart {
+    min-width: 30%;
+    padding: 20px;
+    background-color: lightgoldenrodyellow;
+}
+
+.cartStatus {
+    font-size: 30px;
+    text-align: center;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    min-width: 175px;
+}
+
+
+.price {
+    min-width: 100px;
+}
+
+.amount {
+    min-width: 100px;
+}
+
+.amountSelector {
+    width: 20%;    
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.catalogLine > .amountSelector {
+    min-width: 260px;
+}
+
+.imgCatalog {
+    margin-right: 30px;
+}
+
+.title {
+    text-align: center;
+    font-size: 50px;
+    margin: 20px;
+}
+
+.cellTitle {
+    font-size: 30px;
+    margin: 20px 0;
+    height: 50px;
+    display: block;
+}
+
+
+.amountInput {
+    width: 31px;
+    height: 35px;
+    text-align: center;
+}
+
+.selector {
+	box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+	background-color:#89c403;
+	border-radius:6px;
+	border:1px solid #74b807;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	min-height: 100%;
+    width: 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #528009;
+    outline: none;
+}
+.selector:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
+.selector:active {
+	position:relative;
+	top:1px;
+}
+
+
+.less::before {
+    content: "-";
+    font-size: 24px;
+    line-height: 18px;
+}
+
+.more::before {
+    content: "+";
+    font-size: 24px;
+    line-height: 24px;
+}
+
+/* Для Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+/* Для Firefox */
+input[type=number]{
+  -moz-appearance: textfield;
+}
+
+.buyButton {
+	box-shadow: 0px 1px 0px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-size:15px;
+	font-weight:bold;
+	padding: 13px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+    line-height: 14px;
+    outline: none;
+    margin-left: 20px;
+}
+.buyButton:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+.buyButton:active {
+	position:relative;
+	top:1px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.4;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background-color: #000;
+}
+
+#modal {
+    position: fixed;
+    top: 15%;
+    left: 30%;
+    z-index: 2;
+    background-color: #fff;
+    line-height: 500px;
+    text-align: center;
+    padding: 50px;
+}
+
+#modal img {
+    vertical-align: middle;
+}
+
+#modal::before {
+    
+}
