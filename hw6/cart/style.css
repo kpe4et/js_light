@@ -36,7 +36,7 @@
 
 .name {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     min-width: 175px;
 }
 
@@ -163,7 +163,7 @@ input[type=number]{
 	top:1px;
 }
 
-.overlay {
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -176,19 +176,70 @@ input[type=number]{
 
 #modal {
     position: fixed;
-    top: 15%;
-    left: 30%;
+    top: 10%;
+    left: 20%;
     z-index: 2;
     background-color: #fff;
     line-height: 500px;
     text-align: center;
-    padding: 50px;
+    padding: 100px;
+    min-width: 1000px;
+    min-height: 600px;
 }
 
 #modal img {
     vertical-align: middle;
 }
 
-#modal::before {
-    
+#left {
+    content: '';
+    width: 60px;
+    height: 60px;
+    text-decoration: none;
+    border: none;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    align-self: center;
+    display: block;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 45%;
+    left: 5%;
+    background-color: transparent;
+    outline: none;
+}
+
+#right {
+    width: 60px;
+    height: 60px;
+    text-decoration: none;
+    border: none;
+    align-self: center;
+    display: block;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    transform: rotate(135deg);
+    position: absolute;
+    top: 45%;
+    right: 5%;
+    background-color: transparent;
+    outline: none;
+}
+
+#close {
+    min-width: 120px;
+    min-height: 50px;
+    padding: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    font-size: 30px;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    outline: none;
+}
+
+#close:hover {
+    color: silver;
+    border-color: silver;
 }

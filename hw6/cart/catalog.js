@@ -48,6 +48,16 @@ function listRender(id, array) {                            // пока отде
                 if (j != 'amount') {                                // в корзине будем сразу использовать значение в инпуте
                     var deepCell = document.createElement('div');
                     deepCell.classList.add(j, 'lineElement');
+                    if (j == 'name') {                                  // добавим картинку
+                        var img = document.createElement('img');
+                        img.src = 'img/'+catalog[i][j]+'.jpg';
+                        img.height = "60";
+                        img.width = "60";
+                        img.classList.add('cartImg');
+                        img.id = 'img '+catalog[i][j];
+                        img.onclick = showBigImg;
+                        deepCell.append(img);
+                    }
                     deepCell.append(array[i][j]);
                     cell.appendChild(deepCell);
                 }
@@ -85,7 +95,7 @@ function listRender(id, array) {                            // пока отде
 }
 
 
-//отображение каталога (если успею, постараюсь переиспользовать функцию для корзины)
+//отображение каталога
 function catalogRender(catalog) {
     var catalogPage = {}; 
     catalogPage.element = document.getElementById('catalog');
@@ -123,7 +133,7 @@ function catalogRender(catalog) {
                     img.src = 'img/'+catalog[i][j]+'.jpg';
                     img.height = "60";
                     img.width = "60";
-                    img.classList.add('imgCatalog');
+                    img.classList.add('catalogImg');
                     img.id = 'img '+catalog[i][j];
                     img.onclick = showBigImg;
                     deepCell.append(img);
@@ -166,29 +176,19 @@ function catalogRender(catalog) {
     }
 }
 
-// V создать оверлей 
-// V создать модальное окно поверх оверлея
-// V отцентровать модальное окно
-// V расположить картинку по центру модального окна
-// добавить стрелки для навигации
-// добавить возможность обхода картинок
-// добавить и обработать крестик для закрытия
-// закрыть модалку
-// убрать оверлей
-
 
 // обрабатываем клик по картинке
 function showBigImg(eventObj) {
     overlayOn();
     modalOn();
     imageToModal(eventObj);
-    console.log(eventObj);
+//    imgHandler(getAllImgs(eventObj.target.parentElement.parentElement.parentElement.id), eventObj);
 }
 
 // создаем оверлей
 function overlayOn() {
     var overlay = document.createElement('div');
-    overlay.classList.add('overlay');
+    overlay.id = 'overlay';
     document.body.append(overlay);
 }
 
@@ -196,6 +196,19 @@ function overlayOn() {
 function modalOn() {
     var modal = document.createElement('div');
     modal.id = 'modal';
+    var left = document.createElement('button');
+    left.id = 'left';
+    left.classList.add('imgNav');
+    left.onclick = imgHandler;
+    var right = document.createElement('button');
+    right.id = 'right';
+    right.classList.add('imgNav');
+    right.onclick = imgHandler;
+    var close = document.createElement('button');
+    close.id = 'close';
+    close.append('Close');
+    close.onclick = imgViewerClose;
+    modal.append(left, right, close);
     document.body.append(modal);
 }
 
@@ -204,10 +217,58 @@ function imageToModal(eventObj) {
     var placeForImg = document.getElementById('modal');
     var img = document.createElement('img');
     img.src = eventObj.srcElement.src;
+//    console.log(eventObj.target.className.slice(0, -3));
+    img.id = (eventObj.target.className);
     placeForImg.append(img);
 }
 
-function countCartPrice(cartArray) {                                // считаем общую сумму товаров в корзине
+// найдем все картинки
+function getAllImgs(id) {
+    var element = document.getElementById(id.slice(0, -3));
+    var imgs = element.getElementsByClassName(id);
+    var imgSrcs = [];
+    for (var i = 0; i < imgs.length; i++) {
+        imgSrcs.push(imgs[i].src);
+    }
+    return imgSrcs;
+}
+
+// соберем информацию и переключим картинки
+function imgHandler(eventObj) {
+    var direction = eventObj.target.id;                                                             // из объекта получим направление
+    var currentSrc = eventObj.target.parentElement.getElementsByTagName('img')[0].src;              // получим текущую ссылку на изображение
+    var id = eventObj.target.parentElement.getElementsByTagName('img')[0].id;          // получим место, откуда картинка была вызвана
+    var imgSrcs = getAllImgs(id);                                                                   // получим массив ссылок
+    var i = imgSrcs.indexOf(currentSrc);                                                           // получим индекс текущего изображения
+    switchImg(id, direction, imgSrcs, i);
+}
+
+// переключалка картинок
+function switchImg(id, direction, imgSrcs, i) {
+    var img = document.getElementById(id);
+    if (direction == 'left') {
+        if (i == 0) {
+            img.src = imgSrcs[imgSrcs.length - 1];
+        } else {
+            img.src = imgSrcs[--i];
+        }
+    } else if (direction == 'right') {
+        if (i == (imgSrcs.length - 1)) {
+            img.src = imgSrcs[0];
+        } else {
+            img.src = imgSrcs[++i];
+        }
+    }
+}
+
+// закрыть модалку и оверлей
+function imgViewerClose() {
+    document.getElementById('modal').outerHTML = "";
+    document.getElementById('overlay').outerHTML = "";
+}
+
+// считаем общую сумму товаров в корзине
+function countCartPrice(cartArray) {                                
     var cartSum = 0;
     for (var i = 0; i < cartArray.length; i++) {
         cartSum += cart[i].price * cart[i].amount;
@@ -215,15 +276,17 @@ function countCartPrice(cartArray) {                                // счит�
     return cartSum;
 }
 
-function countCartAmount(cartArray) {                               // считаем количество товаров в корзине
+// считаем количество товаров в корзине
+function countCartAmount(cartArray) {                               
     var cartAmount = 0;
     for (var i = 0; i < cartArray.length; i++) {
         cartAmount += cart[i].amount;
     }
-    return cartAmount;                                              // почему ответ начинается с нуля??? надо отдебажить
+    return cartAmount;                                              
 }
 
-function cartRender(cart) {                                         // отрисовываем корзину
+// отрисовываем корзину
+function cartRender(cart) {                                         
     document.getElementById('cart').innerHTML = '';                 // очищаем див корзины
     var cartPage = {};
     cartPage.element = document.getElementById('cart');
@@ -244,8 +307,8 @@ function cartRender(cart) {                                         // отри�
     // здесь могла бы быть кнопка оформления заказа
 }
 
-
-function decreaseCatalog(catalog, name, amount) {                   // убираем из каталога перенесенное в корзину
+// убираем из каталога перенесенное в корзину
+function decreaseCatalog(catalog, name, amount) {                   
     for (var i = 0; i < catalog.length; i++) {
         if (catalog[i].name == name) {
             if ((catalog[i].amount - amount) < 0) {
@@ -262,8 +325,8 @@ function decreaseCatalog(catalog, name, amount) {                   // убир�
     return true;
 }
 
-
-function listenCartInput(eventObj) {                                    // здесь будет функция обработки изменений инпутов в корзине
+// здесь будет функция обработки изменений инпутов в корзине
+function listenCartInput(eventObj) {                                    
     var inputId = eventObj.target.id;                                   // значение name
     var inputValue = parseInt(document.getElementById(inputId).value, 10); // новое значение поля в input
     for (i = 0; i < cart.length; i++) {                                 // здесь мы найдем в корзине соответствующую запись
@@ -285,7 +348,8 @@ function listenCartInput(eventObj) {                                    // зд�
     }
 }
 
-function addToCart(obj) {                                           // добавляем в корзину товар из каталога
+// добавляем в корзину товар из каталога
+function addToCart(obj) {                                           
     var id = obj.target.id;      
     var itemName = catalog[id].name;
     var itemAmount = parseInt(document.getElementById('input'+id).value, 10);
@@ -322,7 +386,8 @@ function addToCart(obj) {                                           // доба�
     cartRender(cart);                                               // рисуем корзину заново
 }
 
-var amountSelectorEvents = function(catalog, cart, event) {                         // добавим веселую функцию обработки кликов на селекторы +/-
+// добавим веселую функцию обработки кликов на селекторы +/-
+var amountSelectorEvents = function(catalog, cart, event) {                         
     return function (event) {
         if (event.target.classList.contains('cartSelector')) {                      // если клики происходят на селекторы в корзине, то все сложно
             var selectorId = event.target.parentElement.parentElement.querySelector('input').id;        // получаем id поля инпута, к которому привязаны селекторы
