@@ -50,11 +50,11 @@ function listRender(id, array) {                            // пока отде
                     deepCell.classList.add(j, 'lineElement');
                     if (j == 'name') {                                  // добавим картинку
                         var img = document.createElement('img');
-                        img.src = 'img/'+catalog[i][j]+'.jpg';
+                        img.src = 'img/'+cart[i][j]+'.jpg';
                         img.height = "60";
                         img.width = "60";
                         img.classList.add('cartImg');
-                        img.id = 'img '+catalog[i][j];
+                        img.id = 'img '+cart[i][j];
                         img.onclick = showBigImg;
                         deepCell.append(img);
                     }
