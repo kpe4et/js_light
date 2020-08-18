@@ -38,7 +38,7 @@
 .name {
     display: flex;
     justify-content: space-between;
-    min-width: 175px;
+    min-width: 135px;
 }
 
 
@@ -77,6 +77,9 @@
     display: block;
 }
 
+.free {
+    width: 50px;
+}
 
 .amountInput {
     width: 31px;
@@ -243,4 +246,8 @@ input[type=number]{
 #close:hover {
     color: silver;
     border-color: silver;
+}
+
+.purchaseButton {
+    display: block;
 }

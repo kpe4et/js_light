@@ -41,7 +41,12 @@ function listRender(id, array) {                            // пока отде
             var totalItemPrice = document.createElement('div'); 
             totalItemPrice.classList.add('totalItemPrice', 'lineElement', 'cellTitle');
             totalItemPrice.append('Total');
+            
+            var free = document.createElement('div');
+            free.classList.add('free');
+            
             cell.appendChild(totalItemPrice);
+            cell.appendChild(free);
             listDiv.element.appendChild(cell);
         } else {
             for (var j in array[i]) {                         // обойдем каждый ключ элемента каталога
@@ -497,5 +502,5 @@ if (localStorage.length > 0) {
     getFromLocalStorage(cart, catalog);
 } else { 
     cartRender(cart);
+    catalogRender(catalog);
 }
-catalogRender(catalog);
