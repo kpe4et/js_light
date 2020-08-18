@@ -45,6 +45,7 @@
             return x;
         }
         
+
         function inputAnyNumber() {
             var x;
             while (!(Number.isInteger(x))) {
@@ -52,6 +53,7 @@
             }
             return x;
         }
+
         
         
         //1
@@ -115,6 +117,7 @@
                 alert(13)
             case 14:
                 alert(14)
+
             default:
                 alert(15);
         }
@@ -137,6 +140,7 @@
         }
         
         
+
         //6
         function mathOperation(arg1, arg2, operation) {
             switch(operation) {
@@ -159,6 +163,7 @@
         alert("вероятно, 'null' - это вообще ничего, отсутствие значения. 0 - некое значение");
         alert(null==0); 
         
+
         
         
         //8 . До фиксов сюда принимали только положительные числа, поэтому все равно бы ничего не упало, но функциональность была бы урезана
@@ -177,6 +182,7 @@
         a = inputAnyNumber(count);
         ++count;
         b = inputAnyNumber(count);
+
         alert("и первое число в степени второго числа... барабанная дробь...");
         alert(power(a,b));
         
