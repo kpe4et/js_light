@@ -30,7 +30,7 @@
         var a, b, count;
         
         function inputPositive() {
-            x = -1;
+            var x;
             while (!(Number.isInteger(x) && x >= 0)) {                                  // для упрощения я сразу позволю считать 0 положительным, в том числе и для первого задания
                 x = Number(prompt("введите целочисленное положительное число " + count)); 
             }
@@ -38,15 +38,21 @@
         }
         
         function inputNegative() {
-            x = 0;
+            var x;
             while (!(Number.isInteger(x) && x < 0)) {
                 x = Number(prompt("введите целочисленное отрицательное число " + count)); 
             }
             return x;
         }
         
-        
-        
+        function inputAnyNumber() {
+            var x;
+            while (!(Number.isInteger(x))) {
+                x = Number(prompt("введите целочисленное число " + count)); 
+            }
+            return x;
+        }
+
         //1
         count = 1;
         alert("посчитаем разность");
@@ -80,76 +86,69 @@
         switch (a) {        // так хотелось бы его while'ом..
             case 0:
                 alert(0);
-                ++a;
             case 1:
                 alert(1);
-                ++a;
             case 2:
                 alert(2);
-                ++a;
             case 3:
                 alert(3);
-                ++a;
             case 4:
                 alert(4);
-                ++a;
             case 5:
                 alert(5);
-                ++a;
             case 6:
                 alert(6);
-                ++a;
             case 7:
                 alert(7);
-                ++a;
             case 8:
                 alert(8);
-                ++a;
             case 9:
                 alert(9);
-                ++a;
             case 10:
-                alert(10);
-                ++a;
+                alert(10)
             case 11:
-                alert(11);
-                ++a;
+                alert(11)
             case 12:
-                alert(12);
-                ++a;
+                alert(12)
             case 13:
-                alert(13);
-                ++a;
+                alert(13)
             case 14:
-                alert(14);
-                ++a;
+                alert(14)
             default:
                 alert(15);
         }
         
         //5
-        function moreMath(x,y) {
-            alert(x+y);
-            alert(x-y);
-            alert(x*y);
-            alert(x/y);
-            return "сделаль" // ну или return (x+y)*x/y-x
+        function makeAdd(x,y) {
+            return x+y;
+        }
+        
+        function makeSub(x,y) {
+            return x-y;
+        }
+        
+        function makeMul(x,y) {
+            return x*y;
+        }
+        
+        function makeDiv(x,y) {
+            return x/y;
         }
         
         //6
         function mathOperation(arg1, arg2, operation) {
             switch(operation) {
                 case "-":
-                    return a-b;
+                    makeSub(x,y);
                     break;
                 case "+":
-                    return a+b;
+                    makeAdd(x,y);
                     break;
                 case "/":
-                    return a/b;
+                    makeDiv(x,y);
                     break;
                 default:
-                    return a*b;
+                    makeMul(x,y);
             }
         }
         
@@ -158,22 +157,24 @@
         alert("вероятно, 'null' - это вообще ничего, отсутствие значения. 0 - некое значение");
         alert(null==0); 
         
-        //8 
+        
+        
+        //8 . До фиксов сюда принимали только положительные числа, поэтому все равно бы ничего не упало, но функциональность была бы урезана
         function power(val,pow) {
             if (pow == 0)
                 return 1;
-            else if (pow == 1)
-                return val;
+            else if (pow < 0)
+                return power (1 / val, -pow);
             else 
-                --pow;
-                return val * power(val,pow);
+                return val * power(val, pow -1);
         }
         
+        //ну и просто пример
         count = 1;
         alert("посчитаем степени");
-        a = inputPositive(count);
+        a = inputAnyNumber(count);
         ++count;
-        b = inputPositive(count);
+        b = inputAnyNumber(count);
         alert("и первое число в степени второго числа... барабанная дробь...");
         alert(power(a,b));
         
