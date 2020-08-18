@@ -171,7 +171,7 @@ function catalogRender(catalog) {
             buyButton.classList.add('buyButton');
             buyButton.id = i;
             buyButton.append('Add To Cart');
-            buyButton.addEventListener('click', addToCartWithButton);
+            buyButton.addEventListener('click', addToCart);
             amountSelector.append(buyButton);
             
             cell.append(amountSelector);
@@ -224,6 +224,7 @@ function imageToModal(eventObj) {
     var placeForImg = document.getElementById('modal');
     var img = document.createElement('img');
     img.src = eventObj.srcElement.src;
+//    console.log(eventObj.target.className.slice(0, -3));
     img.id = (eventObj.target.className);
     placeForImg.append(img);
 }
@@ -292,7 +293,8 @@ function countCartAmount(cartArray) {
 }
 
 // отрисовываем корзину
-function cartRender(cart) {                                         
+function cartRender(cart) {  
+    console.log('чо');
     document.getElementById('cart').innerHTML = '';                 // очищаем див корзины
     var cartPage = {};
     cartPage.element = document.getElementById('cart');
@@ -302,9 +304,12 @@ function cartRender(cart) {
     cartPage.element.appendChild(cartTitle);
     var cell = document.createElement('div');
     cell.classList.add('cart');
-    if (cart.length < 1 && localStorage.length == 0) {
+    console.log('до');
+    if (cart.length < 1) {
+        console.log('если');
         cell.append('Ваша корзина пуста');
     } else {
+        console.log('иначе');
         localStorageSet(cart);   
         listRender('cart', cart);                               // запишем состояние корзины в localStorage
         cell.append('В корзине '+countCartAmount(cart)+ ' товаров на сумму ' +countCartPrice(cart)+ ' рублей.');
@@ -313,6 +318,12 @@ function cartRender(cart) {
         purchaseButton.classList.add('purchaseButton');
         purchaseButton.append('Show me the money');
         purchaseButton.addEventListener('click', purchase(cart));  // на самом деле очистим localStorage и корзину
+        console.log(localStorage);
+//        if (localStorage.length == 0) {
+//            cart = [];
+//            cartRender(cart);
+//        }
+        
         cell.append(purchaseButton);
                                        
         
@@ -341,6 +352,7 @@ function decreaseCatalog(catalog, name, amount) {
 
 // здесь будет функция обработки изменений инпутов в корзине
 function listenCartInput(eventObj) {    
+    console.log('я слушаю инпут')
     var inputId = eventObj.target.id;                                   // значение name
     var inputValue = parseInt(document.getElementById(inputId).value, 10); // новое значение поля в input
     for (i = 0; i < cart.length; i++) {                                 // здесь мы найдем в корзине соответствующую запись
@@ -362,15 +374,11 @@ function listenCartInput(eventObj) {
     }
 }
 
-function addToCartWithButton(obj) {
+// добавляем в корзину товар из каталога
+function addToCart(obj) {
     var id = obj.target.id;      
     var itemName = catalog[id].name;
     var itemAmount = parseInt(document.getElementById('input'+id).value, 10);
-    addToCart(itemName, itemAmount, id);
-}
-
-// добавляем в корзину товар из каталога или localStorage
-function addToCart(itemName, itemAmount, id) {
     if ((itemAmount < 0) || isNaN(itemAmount)) {
         alert('Вы можете добавить в корзину только положительное число');
         return;
@@ -456,6 +464,7 @@ var amountSelectorEvents = function(catalog, cart, event) {
 
 // удаление товара из корзины при клике на кнопку
 function remove(eventObj) {
+    console.log(eventObj);
     var amount = cart[eventObj.target.parentElement.id.split(' ')[1]].amount;
     var name = eventObj.target.dataset.name;
     decreaseCatalog(catalog, name, -amount);
@@ -466,6 +475,7 @@ function remove(eventObj) {
 
 // заполнение localStorage
 function localStorageSet(cart) {
+    console.log('тута');
     for (var i = 0; i < cart.length; i++) {
             localStorage.setItem(cart[i].name, cart[i].amount);
     }
@@ -482,20 +492,12 @@ function purchase(cart) {
 
 // здесь будем назначать данные из localStorage
 function getFromLocalStorage(cart, catalog) {
-    for (var i = 0; i < localStorage.length; i++) {
-        for (var j = 0; j < catalog.length; j++) {
-            if (catalog[j].name == localStorage.key(i)) {
-                addToCart(localStorage.key(i), parseInt((localStorage.getItem(localStorage.key(i))), 10), j);
-            }
-        }
+    for (var i = 0, i < localStorage.length; i++) {
+        var name = localStorage.key(i);
+        
     }
 }
 
-
 document.addEventListener('click', amountSelectorEvents(catalog, cart, event));
-if (localStorage.length > 0) {
-    getFromLocalStorage(cart, catalog);
-} else { 
-    cartRender(cart);
-}
+cartRender(cart);
 catalogRender(catalog);
