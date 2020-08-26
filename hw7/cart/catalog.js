@@ -41,7 +41,12 @@ function listRender(id, array) {                            // пока отде
             var totalItemPrice = document.createElement('div'); 
             totalItemPrice.classList.add('totalItemPrice', 'lineElement', 'cellTitle');
             totalItemPrice.append('Total');
+            
+            var free = document.createElement('div');
+            free.classList.add('free');
+            
             cell.appendChild(totalItemPrice);
+            cell.appendChild(free);
             listDiv.element.appendChild(cell);
         } else {
             for (var j in array[i]) {                         // обойдем каждый ключ элемента каталога
@@ -87,6 +92,13 @@ function listRender(id, array) {                            // пока отде
             totalItemPrice.classList.add('totalItemPrice', 'lineElement');
             totalItemPrice.append(array[i].price * array[i].amount);
             cell.appendChild(totalItemPrice);
+            
+            var removeFromCart = document.createElement('button');
+            removeFromCart.append('Remove');
+            removeFromCart.classList.add('remove');
+            removeFromCart.dataset.name = array[i].name;
+            removeFromCart.addEventListener('click', remove);
+            cell.append(removeFromCart);
             
             listDiv.element.appendChild(cell);
         }
@@ -164,7 +176,7 @@ function catalogRender(catalog) {
             buyButton.classList.add('buyButton');
             buyButton.id = i;
             buyButton.append('Add To Cart');
-            buyButton.addEventListener('click', addToCart);
+            buyButton.addEventListener('click', addToCartWithButton);
             amountSelector.append(buyButton);
             
             cell.append(amountSelector);
@@ -217,7 +229,6 @@ function imageToModal(eventObj) {
     var placeForImg = document.getElementById('modal');
     var img = document.createElement('img');
     img.src = eventObj.srcElement.src;
-//    console.log(eventObj.target.className.slice(0, -3));
     img.id = (eventObj.target.className);
     placeForImg.append(img);
 }
@@ -296,15 +307,23 @@ function cartRender(cart) {
     cartPage.element.appendChild(cartTitle);
     var cell = document.createElement('div');
     cell.classList.add('cart');
-    if (cart.length < 1) {
+    if (cart.length < 1 && localStorage.length == 0) {
         cell.append('Ваша корзина пуста');
     } else {
-        listRender('cart', cart);
+        localStorageSet(cart);   
+        listRender('cart', cart);                               // запишем состояние корзины в localStorage
         cell.append('В корзине '+countCartAmount(cart)+ ' товаров на сумму ' +countCartPrice(cart)+ ' рублей.');
+        
+        var purchaseButton = document.createElement('button');  // кнопка типа вызова диалога оплаты
+        purchaseButton.classList.add('purchaseButton');
+        purchaseButton.append('Show me the money');
+        purchaseButton.addEventListener('click', purchase(cart));  // на самом деле очистим localStorage и корзину
+        cell.append(purchaseButton);
+                                       
+        
     }
     cell.classList.add('cartStatus');
     cartPage.element.appendChild(cell);
-    // здесь могла бы быть кнопка оформления заказа
 }
 
 // убираем из каталога перенесенное в корзину
@@ -326,7 +345,7 @@ function decreaseCatalog(catalog, name, amount) {
 }
 
 // здесь будет функция обработки изменений инпутов в корзине
-function listenCartInput(eventObj) {                                    
+function listenCartInput(eventObj) {    
     var inputId = eventObj.target.id;                                   // значение name
     var inputValue = parseInt(document.getElementById(inputId).value, 10); // новое значение поля в input
     for (i = 0; i < cart.length; i++) {                                 // здесь мы найдем в корзине соответствующую запись
@@ -348,11 +367,15 @@ function listenCartInput(eventObj) {
     }
 }
 
-// добавляем в корзину товар из каталога
-function addToCart(obj) {                                           
+function addToCartWithButton(obj) {
     var id = obj.target.id;      
     var itemName = catalog[id].name;
     var itemAmount = parseInt(document.getElementById('input'+id).value, 10);
+    addToCart(itemName, itemAmount, id);
+}
+
+// добавляем в корзину товар из каталога или localStorage
+function addToCart(itemName, itemAmount, id) {
     if ((itemAmount < 0) || isNaN(itemAmount)) {
         alert('Вы можете добавить в корзину только положительное число');
         return;
@@ -436,6 +459,48 @@ var amountSelectorEvents = function(catalog, cart, event) {
     }
 }
 
+// удаление товара из корзины при клике на кнопку
+function remove(eventObj) {
+    var amount = cart[eventObj.target.parentElement.id.split(' ')[1]].amount;
+    var name = eventObj.target.dataset.name;
+    decreaseCatalog(catalog, name, -amount);
+    cart.splice(eventObj.target.parentElement.id.split(' ')[1], 1);
+    cartRender(cart);
+}
+
+
+// заполнение localStorage
+function localStorageSet(cart) {
+    for (var i = 0; i < cart.length; i++) {
+            localStorage.setItem(cart[i].name, cart[i].amount);
+    }
+}
+
+// имитация покупки, очистка localStorage и корзины (таким образом можем прийти к тому, что товар может закончиться, но состояние каталога в ls писать не буду, так что после F5 новые поставки)
+function purchase(cart) {
+    return function (event) {
+        localStorage.clear();
+        cart.splice(0, cart.length);
+        cartRender(cart);
+    }
+}
+
+// здесь будем назначать данные из localStorage
+function getFromLocalStorage(cart, catalog) {
+    for (var i = 0; i < localStorage.length; i++) {
+        for (var j = 0; j < catalog.length; j++) {
+            if (catalog[j].name == localStorage.key(i)) {
+                addToCart(localStorage.key(i), parseInt((localStorage.getItem(localStorage.key(i))), 10), j);
+            }
+        }
+    }
+}
+
+
 document.addEventListener('click', amountSelectorEvents(catalog, cart, event));
-cartRender(cart);
-catalogRender(catalog);
+if (localStorage.length > 0) {
+    getFromLocalStorage(cart, catalog);
+} else { 
+    cartRender(cart);
+    catalogRender(catalog);
+}
