@@ -130,13 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
             maxXOld = Math.max(maxXOld, (gameBoard.currentPosition+cellPos)%BOARDWIDTH);
             maxXNew = Math.max(maxXNew, (newPosition+cellPos)%BOARDWIDTH);
         });
-//        if (Math.abs(minXOld-minXNew)>1 ||
-//            Math.abs(maxXOld-maxXNew)>1 ||
-//            Math.abs(maxXNew-minXNew)>4) {
-//            result = false;
-//        }
+        if (Math.abs(minXOld-minXNew)>1 ||
+            Math.abs(maxXOld-maxXNew)>1 ||
+            Math.abs(maxXNew-minXNew)>4) {
+            result = false;
+        }
         return result;
     }
+    
+
 
     function getFullLines() {
         var result = [];
@@ -216,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return x*BOARDWIDTH + gameBoard.currentFigureWidth-1-y;
         })
+        console.log(gameBoard.currentFigure, gameBoard.currentPosition);
         if (!canMove(gameBoard.currentPosition)) {
             gameBoard.currentFigure = oldFigure;
         }
